@@ -1,0 +1,6 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: ??????
+  Features:
+    - Seperated FilterFill into its own mod.
+    - Added Inventory Sorting.
