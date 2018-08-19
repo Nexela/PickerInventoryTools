@@ -26,9 +26,7 @@ local function increase_decrease_reprogrammer(event, change)
         if get_match(stack) then
             pdata.chests = pdata.chests or {}
             local bar = pdata.chests[stack.name] or 0
-            --.15 we can get the #slots from prototype
             local text_field = Pad.get_or_create_adjustment_pad(player, 'chestlimit')['chestlimit_text_box']
-            --text_field.text = pdata[stack.name] or 0
             if event.element and event.element.name == 'chestlimit_text_box' and not type(event.element.text) == 'number' then
                 return
             elseif event.element and event.element.name == 'chestlimit_text_box' then
@@ -56,7 +54,6 @@ local function adjust_limit_pad(event)
         end
     end
 end
-Event.register(Event.generate_event_name('adjustment_pad'), adjust_limit_pad)
 
 Gui.on_text_changed(
     'chestlimit_text_box',
@@ -83,6 +80,7 @@ Gui.on_click(
     end
 )
 
+--Set the limit when chests are build and data is saved.
 local function on_chest_built(event)
     if match_to_item[event.created_entity.type] then
         local _, pdata = Player.get(event.player_index)
@@ -98,3 +96,10 @@ end
 Event.register(defines.events.on_built_entity, on_chest_built)
 
 Event.register(defines.events.on_player_cursor_stack_changed, increase_decrease_reprogrammer)
+
+local function register()
+    local index = remote.call('PickerExtended', 'get_adjustment_pad_id')
+    Event.register(index, adjust_limit_pad)
+end
+Event.register(Event.core_events.init, register)
+Event.register(Event.core_events.load, register)

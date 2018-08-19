@@ -27,7 +27,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-request-bp',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -37,7 +37,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-request-2x',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -47,7 +47,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-request-5x',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -57,7 +57,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-request-10x',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -67,7 +67,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-request-max',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -77,7 +77,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-request-clear',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -90,7 +90,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-filters-all',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -100,7 +100,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-filters-down',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -110,7 +110,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-filters-right',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -120,7 +120,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-filters-set-all',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,
@@ -130,7 +130,7 @@ data:extend {
     {
         type = 'sprite',
         name = 'picker-filters-clear-all',
-        filename = '__PickerFilterFill__/graphics/filterfill.png',
+        filename = '__PickerInventoryTools__/graphics/filterfill.png',
         priority = 'extra-high',
         width = 64,
         height = 64,

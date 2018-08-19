@@ -1,8 +1,8 @@
 {
-    "name": "PickerFilterFill",
+    "name": "PickerInventoryTools",
     "version": "1.0.0",
     "factorio_version": "0.17",
-    "title": "Picker Filter Fill",
+    "title": "Picker Inventory Tools",
     "author": "Nexela",
     "contact": "nexela@gmail.com",
     "dependencies": ["base >= 0.17.0", "stdlib >= 1.0.0", "PickerExtended >= 4.0.0"],
