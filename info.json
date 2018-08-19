@@ -2,7 +2,7 @@
     "name": "PickerFilterFill",
     "version": "1.0.0",
     "factorio_version": "0.17",
-    "title": "Picker FilterFill",
+    "title": "Picker Filter Fill",
     "author": "Nexela",
     "contact": "nexela@gmail.com",
     "dependencies": ["base >= 0.17.0", "stdlib >= 1.0.0", "PickerExtended >= 4.0.0"],

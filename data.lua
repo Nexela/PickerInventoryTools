@@ -1,9 +1,26 @@
-data:extend{
+require('__stdlib__/core')
+
+data:extend {
     {
         type = 'custom-input',
         name = 'picker-manual-inventory-sort',
         key_sequence = 'SHIFT + E'
-    }
+    },
+    {
+        type = 'custom-input',
+        name = 'picker-copy-chest',
+        key_sequence = 'CONTROL + V'
+    },
+}
+
+local style = data.raw['gui-style'].default
+style.filterfill_requests = {
+    type = 'table_style',
+    parent = 'picker_table'
+}
+style.filterfill_filters = {
+    type = 'table_style',
+    parent = 'picker_table'
 }
 
 data:extend {
@@ -69,7 +86,7 @@ data:extend {
     }
 }
 
-data:extend{
+data:extend {
     {
         type = 'sprite',
         name = 'picker-filters-all',
