@@ -6,7 +6,7 @@
 local Event = require('__stdlib__/event/event')
 local Gui = require('__stdlib__/event/gui')
 local Inventory = require('__stdlib__/entity/inventory')
-local lib = require('__PickerExtended__/scripts/lib')
+local lib = require('__PickerExtended__/utils/lib')
 
 --(( GUI ))--
 local INVENTORY_COLUMNS = 10
