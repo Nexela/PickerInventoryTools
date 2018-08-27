@@ -3,9 +3,9 @@
 -------------------------------------------------------------------------------
 --Code modified from: "Fast Filter Fill" by: "Keryja, SeaRyanC"
 
-local Event = require('__stdlib__/event/event')
-local Gui = require('__stdlib__/event/gui')
-local Inventory = require('__stdlib__/entity/inventory')
+local Event = require('__stdlib__/stdlib/event/event')
+local Gui = require('__stdlib__/stdlib/event/gui')
+local Inventory = require('__stdlib__/stdlib/entity/inventory')
 local lib = require('__PickerExtended__/utils/lib')
 
 --(( GUI ))--

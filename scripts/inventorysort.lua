@@ -1,5 +1,5 @@
 --(( Sorting ))
-local Event = require('__stdlib__/event/event')
+local Event = require('__stdlib__/stdlib/event/event')
 
 local types = {
     ['car'] = defines.inventory.car_trunk,
