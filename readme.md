@@ -9,19 +9,19 @@ Automatically sort container inventories when opened. Can be toggled off and onl
 
 Quickly Move the contents of once chest to another. This is a quick and dirty move. CONTROL+V on the source chest and CONTROL+V on the destination chest. Items with grids or inventories will lose their grids or inventories when transferred. Use this for bulk material only.
 
-![Chest Copy in Action](https://github.com/Nexela/PickerExtended/raw/master/web/picker-inv-copy.gif)
+![Chest Copy in Action](https://github.com/Nexela/PickerAtheneum/raw/master/web/picker-inv-copy.gif)
 
 ## Picker Chest Limiter
 
 Automatically set the bar limits on newly placed chests. (Chest limiter mod)
 
-![Chest Limiter in Action](https://github.com/Nexela/PickerExtended/raw/master/web/picker-chest-limit.gif)
+![Chest Limiter in Action](https://github.com/Nexela/PickerAtheneum/raw/master/web/picker-chest-limit.gif)
 
 ## Picker Inventory Sort
 
 Manually sort opened containers with SHIFT+E, Automatically sorts container inventories when opened if the option is enabled. Can lag big warehouses, runtime option to disable.
 
-![Inventory Sort in Action](https://github.com/Nexela/PickerExtended/raw/master/web/picker-inventory-sort.gif)
+![Inventory Sort in Action](https://github.com/Nexela/PickerAtheneum/raw/master/web/picker-inventory-sort.gif)
 
 ## Picker Filter Fill
 
