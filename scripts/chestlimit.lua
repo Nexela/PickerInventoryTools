@@ -98,7 +98,7 @@ Event.register(defines.events.on_built_entity, on_chest_built)
 Event.register(defines.events.on_player_cursor_stack_changed, increase_decrease_reprogrammer)
 
 local function register()
-    local index = remote.call('PickerExtended', 'get_adjustment_pad_id')
+    local index = remote.call('PickerAtheneum', 'get_adjustment_pad_id')
     Event.register(index, adjust_limit_pad)
 end
 Event.register(Event.core_events.init, register)
