@@ -6,6 +6,7 @@
 local Event = require('__stdlib__/stdlib/event/event')
 local Gui = require('__stdlib__/stdlib/event/gui')
 local Inventory = require('__stdlib__/stdlib/entity/inventory')
+local table = require('__stdlib__/stdlib/utils/table')
 local lib = require('__PickerAtheneum__/utils/lib')
 
 --(( GUI ))--
