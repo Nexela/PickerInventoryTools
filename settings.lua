@@ -11,5 +11,11 @@ data:extend {
         setting_type = 'runtime-per-user',
         type = 'bool-setting',
         default_value = true
+    },
+    {
+        name = 'picker-auto-stock',
+        setting_type = 'runtime-per-user',
+        type = 'bool-setting',
+        default_value = true
     }
 }
