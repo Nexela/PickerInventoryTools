@@ -5,5 +5,6 @@ require('scripts/filterfill')
 require('scripts/copychests')
 require('scripts/inventorysort')
 require('scripts/chestlimit')
+require('scripts/auto-trash-fix')
 
 remote.add_interface(script.mod_name, require('__stdlib__/stdlib/scripts/interface'))
