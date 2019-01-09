@@ -17,5 +17,12 @@ data:extend {
         setting_type = 'runtime-per-user',
         type = 'bool-setting',
         default_value = true
-    }
+    },
+    {
+        type = 'bool-setting',
+        name = 'picker-item-count',
+        setting_type = 'runtime-per-user',
+        default_value = false,
+        order = 'picker-b[itemcount]-a'
+    },
 }

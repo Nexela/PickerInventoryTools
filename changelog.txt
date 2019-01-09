@@ -9,3 +9,4 @@ Date: ??????
     - Added Chest Limiting.
     - Added Auto Trash Fix.
     - Added Auto Stock.
+    - Added Item Count.
