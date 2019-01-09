@@ -89,4 +89,4 @@ local function check_filters(event)
     end
 end
 
-Event.register({defines.events.on_player_main_inventory_changed, defines.events.on_player_quickbar_inventory_changed}, check_filters)
+Event.register(defines.events.on_player_main_inventory_changed, check_filters)
