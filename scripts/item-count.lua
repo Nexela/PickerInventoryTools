@@ -9,7 +9,7 @@ local function get_or_create_itemcount_gui(player)
         gui = player.gui.center.add {type = 'label', name = 'itemcount', caption = '0', direction = 'vertical'}
         gui.style.font = 'default-bold'
     end
-    local enabled = player.mod_settings['picker-itemcount'].value
+    local enabled = player.mod_settings['picker-item-count'].value
     gui.visible = enabled and player.cursor_stack.valid_for_read
     return gui
 end
