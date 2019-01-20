@@ -12,8 +12,6 @@ local Player = require('__stdlib__/stdlib/event/player')
 
 local TECH = 'auto-character-logistic-trash-slots'
 
-
-
 local function check_filters(event)
     local player, pdata = Player.get(event.player_index)
     if player.character and player.force.technologies[TECH].researched and player.mod_settings['picker-auto-stock'].value then
