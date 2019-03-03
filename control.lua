@@ -9,5 +9,6 @@ require('scripts/chestlimit')
 require('scripts/auto-trash-fix')
 require('scripts/auto-stock')
 require('scripts/item-count')
+require('scripts/auto-deconstruct')
 
 remote.add_interface(script.mod_name, require('__stdlib__/stdlib/scripts/interface'))
