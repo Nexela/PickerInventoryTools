@@ -299,9 +299,16 @@ local function check_for_filterable_inventory(event)
 
     local inv = get_opened_inventory(player)
     if inv then
-        local requester = player.opened and player.opened.type == 'logistic-container' and player.opened.prototype.logistic_mode == 'requester'
+        local requester = false
+        local opened = player.opened
+        if opened and opened.type == 'logistic-container' then
+            local ptype = opened.prototype
+            if ptype.logistic_mode == 'requester' or ptype.logistic_mode == 'buffer' then
+                requester = true
+            end
+        end
 
-        frame['filterfill_requests'].visible = requester or false
+        frame['filterfill_requests'].visible = requester
         frame['filterfill_filters'].visible = inv and inv.supports_filters()
         frame.visible = frame['filterfill_filters'].visible or frame['filterfill_requests'].visible
     else
