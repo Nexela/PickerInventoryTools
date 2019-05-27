@@ -4,6 +4,7 @@ Date: ??????
   Features:
     - Added Picker Zapper. Zap unwanted items and trash items.
     - Added Picker Item Editor. Edit held blueprints with a keybind.
+    - Inventory cleaner empties empty planners from the inventory. Held edit keybind has to be used when using this feature.
     - Added buffer chests to the filter fill settings.
   Changes:
     - Set the auto stock and releated scripts to off by default.
