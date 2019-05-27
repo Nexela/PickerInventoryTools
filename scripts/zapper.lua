@@ -5,50 +5,50 @@ local Event = require('__stdlib__/stdlib/event/event')
 local Player = require('__stdlib__/stdlib/event/player')
 local Position = require('__stdlib__/stdlib/area/position')
 
-local evt = defines.events
+local trash_types = {
+    ['blueprint'] = true,
+    ['blueprint-book'] = true,
+    ['deconstruction-item'] = true,
+    ['selection-tool'] = true
+}
 
+-- Zap on keybind
 local function zapper(event)
     local player, pdata = Player.get(event.player_index)
-    local name = (player.cursor_stack.valid_for_read and player.cursor_stack.name)
+    local stack = player.cursor_stack
 
-    if name then
+    if stack and stack.valid_for_read then
         local all = player.mod_settings['picker-item-zapper-all'].value
 
-        if all or global.planners[name] ~= nil or default_destroy[name] then
+        if all or trash_types[stack.type] then
             if (pdata.last_dropped or 0) + 30 < game.tick then
                 pdata.last_dropped = game.tick
                 player.cursor_stack.clear()
                 player.surface.create_entity {
                     name = 'drop-planner',
-                    position = Position(player.position):translate(math.random(0, 7), 1)
+                    position = Position(player.position):translate(math.random(0, 7), math.random())
                 }
             end
         end
     end
 end
---Event.register('picker-zapper', zapper)
+Event.register('picker-zapper', zapper)
 
-local function dropper(event)
-    if event.entity.stack and default_destroy[event.entity.stack.name] then
-        local player = game.players[event.player_index]
-        player.surface.create_entity {
+-- Zap any planner item on drop
+local function on_player_dropped_item(event)
+    local stack = event.entity and event.entity.stack
+    if stack and trash_types[stack.type] then
+        event.entity.surface.create_entity {
             name = 'drop-planner',
             position = event.entity.position
         }
         event.entity.destroy()
     end
 end
---Event.register(evt.on_player_dropped_item, dropper)
-
-local trash_types = {
-    ['blueprint'] = true,
-    ['blueprint-book'] = true,
-    ['deconstruction-item'] = true,
-    ['selection-tool'] = true,
-}
+Event.register(defines.events.on_player_dropped_item, on_player_dropped_item)
 
 local function trash_planners(event)
-    local player = game.players[event.player_index]
+    local player = game.get_player(event.player_index)
     local settings = player.mod_settings
 
     local inventory = player.get_inventory(defines.inventory.character_trash)
@@ -67,10 +67,3 @@ local function trash_planners(event)
     end
 end
 Event.register(defines.events.on_player_trash_inventory_changed, trash_planners)
-
---[[
-
-
-
-
---]]
