@@ -7,7 +7,12 @@ data:extend {
     {
         type = 'custom-input',
         name = 'picker-copy-chest',
-        key_sequence = 'CONTROL + V'
+        key_sequence = 'CONTROL + SHIFT + C'
+    },
+    {
+        type = 'custom-input',
+        name = 'picker-paste-chest',
+        key_sequence = 'CONTROL + SHIFT + V'
     }
 }
 

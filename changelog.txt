@@ -6,8 +6,14 @@ Date: ??????
     - Added Picker Item Editor. Edit held blueprints with a keybind.
     - Inventory cleaner empties empty planners from the inventory. Held edit keybind has to be used when using this feature.
     - Added buffer chests to the filter fill settings.
+    - Remote api set_blacklisted_chests added for chest mover, takes a container name or array of container names.
+    - Remote api get_blacklisted_chests added for chest mover.
   Changes:
     - Set the auto stock and releated scripts to off by default.
+    - Chest contents mover uses seperate keybinds for copy and paste.
+    - Chest contents mover changed to use flying text.
+    - Chest contents mover has a map setting to allow moving contents between surfaces.
+    - Chest contents mover has a remote api check for picker_chest_contents_mover_check, passes src and dest entities.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: ??????

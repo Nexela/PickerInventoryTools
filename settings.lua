@@ -25,6 +25,12 @@ data:extend {
         default_value = false,
         order = 'picker-b[itemcount]-a'
     },
+    {
+        name = 'picker-copy-between-surfaces',
+        setting_type = 'runtime-global',
+        type = 'bool-setting',
+        default_value = false
+    }
 }
 
 require('settings/zapper')
