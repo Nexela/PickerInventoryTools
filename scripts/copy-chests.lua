@@ -56,7 +56,7 @@ local function paste_chest(event)
             return player.create_local_flying_text {text = {'cant-transfer-to-enemy-structures'}, position = chest.position}
         end
 
-        if not (pdata.copy_src.inv and pdata.copy_src.inv.valid and not pdata.copy_src.inv.is_empty()) then
+        if not (pdata.copy_src and pdata.copy_src.inv and pdata.copy_src.inv.valid and not pdata.copy_src.inv.is_empty()) then
             pdata.copy_src = nil
             return player.create_local_flying_text {text = {'chest.no-copy-from'}, position = chest.position}
         end
