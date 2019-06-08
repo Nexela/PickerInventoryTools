@@ -10,34 +10,52 @@ local chest_types = {
     ['logistic-container'] = true
 }
 
+local function flying_text(player, text, position)
+    return player.create_local_flying_text{text = text, position = position}
+end
+
+-- Copy on empty spot, nil copy_src
+-- on paste, check for copy_src
+-- Should allow stacking keybinds
+
 local function copy_chest(event)
     local player, pdata = Player.get(event.player_index)
     local chest = player.selected
-    pdata.copy_src = {}
 
-    if chest then
-        if not chest_types[chest.type] then
-            return player.create_local_flying_text {text = {'chest.containers'}, position = chest.position}
-        end
+    if not chest then
+        pdata.copy_src = nil
+        return
+    end
 
-        if global.blacklisted_chests[chest.name] then
-            return player.create_local_flying_text {text = {'chest.blacklisted', chest.localised_name}, position = chest.position}
-        end
+    if pdata.copy_src then
+        -- Used for same keybind
+        return
+    end
 
-        local p_force, c_force = player.force, chest.force
-        if not (p_force == c_force or c_force.name == 'neutral' or c_force.get_friend(p_force)) then
-            return player.create_local_flying_text {text = {'cant-transfer-from-enemy-structures'}, position = chest.position}
-        end
+    if not chest_types[chest.type] then
+        return flying_text(player, {'chest.containers'}, chest.position)
+    end
 
-        local inventory = chest.get_inventory(defines.inventory.chest)
-        if not inventory.is_empty() then
-            pdata.copy_src.inv = chest.get_inventory(defines.inventory.chest)
-            pdata.copy_src.surface = chest.surface
-            pdata.copy_src.ent = chest
-            player.create_local_flying_text {text = {'chest.copy-src'}, position = chest.position}
-        else
-            player.create_local_flying_text {text = {'chest.empty-src'}, position = chest.position}
-        end
+    if global.blacklisted_chests[chest.name] then
+        return flying_text(player, {'chest.blacklisted', chest.localised_name}, chest.position)
+    end
+
+    local p_force, c_force = player.force, chest.force
+    if not (p_force == c_force or c_force.name == 'neutral' or c_force.get_friend(p_force)) then
+        return flying_text(player, {'cant-transfer-from-enemy-structures'}, chest.position)
+    end
+
+    local inventory = chest.get_inventory(defines.inventory.chest)
+    if not inventory.is_empty() then
+        pdata.copy_src = {
+            inv = inventory,
+            surface = chest.surface,
+            ent = chest,
+            tick = event.tick
+        }
+       return flying_text(player, {'chest.copy-src'}, chest.position)
+    else
+        return flying_text(player, {'chest.empty-src'}, chest.position)
     end
 end
 Event.register('picker-copy-chest', copy_chest)
@@ -46,63 +64,66 @@ local function paste_chest(event)
     local player, pdata = Player.get(event.player_index)
     local chest = player.selected
 
-    if chest then
-        if not chest_types[chest.type] then
-            return player.create_local_flying_text {text = {'chest.containers'}, position = chest.position}
-        end
+    if not chest then
+        return
+    end
 
-        local p_force, c_force = player.force, chest.force
-        if not (p_force == c_force or c_force.name == 'neutral' or c_force.get_friend(p_force)) then
-            return player.create_local_flying_text {text = {'cant-transfer-to-enemy-structures'}, position = chest.position}
-        end
+    if not (pdata.copy_src and pdata.copy_src.tick ~= event.tick) then
+        return
+    end
 
-        if not (pdata.copy_src and pdata.copy_src.inv and pdata.copy_src.inv.valid and not pdata.copy_src.inv.is_empty()) then
-            pdata.copy_src = nil
-            return player.create_local_flying_text {text = {'chest.no-copy-from'}, position = chest.position}
-        end
+    if not chest_types[chest.type] then
+        return flying_text(player, {'chest.containers'}, chest.position)
+    end
 
-        if global.blacklisted_chests[chest.name] then
-            return player.create_local_flying_text {text = {'chest.blacklisted', chest.localised_name}, position = chest.position}
-        end
+    local p_force, c_force = player.force, chest.force
+    if not (p_force == c_force or c_force.name == 'neutral' or c_force.get_friend(p_force)) then
+        return flying_text(player, {'cant-transfer-to-enemy-structures'}, chest.position)
+    end
 
-        if pdata.copy_src.surface ~= chest.surface and not settings.global['picker-copy-between-surfaces'].value then
-            return player.create_local_flying_text {text = {'chest.not-same-surface'}, position = chest.position}
-        end
+    if global.blacklisted_chests[chest.name] then
+        return flying_text(player, {'chest.blacklisted', chest.localised_name}, chest.position)
+    end
 
-        local dest = chest.get_inventory(defines.inventory.chest)
-        local src = pdata.copy_src.inv
-        if dest == src then
-            return player.create_local_flying_text {test = {'chest.same-inventory'}, position = chest.position}
-        end
+    if not (pdata.copy_src.inv and pdata.copy_src.inv.valid and not pdata.copy_src.inv.is_empty()) then
+        pdata.copy_src = nil
+        return flying_text(player, {'chest.no-copy-from'}, chest.position)
+    end
 
-        local api_check = 'picker_chest_contents_mover_check'
-        local interfaces = remote.interfaces
-        for name in pairs(interfaces) do
-            if interfaces[name][api_check] then
-                if not remote.call(name, api_check, pdata.copy_src.ent, chest) then
-                    break
-                end
+    if chest == pdata.copy_src.ent then
+        return flying_text(player, {'chest.same-inventory'}, chest.position)
+    end
+
+    if pdata.copy_src.surface ~= chest.surface and not settings.global['picker-copy-between-surfaces'].value then
+        return flying_text(player, {'chest.not-same-surface'}, chest.position)
+    end
+
+    local api_check = 'picker_chest_contents_mover_check'
+    local interfaces = remote.interfaces
+    for name in pairs(interfaces) do
+        if interfaces[name][api_check] then
+            if not remote.call(name, api_check, pdata.copy_src.ent, chest) then
+                return
             end
         end
+    end
 
-        --clone inventory 1 to inventory 2
-        local count = dest.get_item_count()
-        for i = 1, #src do
-            local stack = src[i]
-            if stack and stack.valid_for_read then
-                local new_stack = {name = stack.name, count = stack.count, health = stack.health, durability = stack.durability}
-                new_stack.ammo = stack.prototype.magazine_size and stack.ammo
-                stack.count = stack.count - dest.insert(new_stack)
-            end
+    local count = chest.get_item_count()
+    local src = pdata.copy_src.inv
+    for i = 1, #src do
+        local stack = src[i]
+        if stack.valid_for_read then
+            stack.count = stack.count - chest.insert(stack)
         end
-        if src.is_empty() then
-            player.create_local_flying_text {text = {'chest.all-moved'}, position = chest.position}
-            pdata.copy_chest = nil
-        elseif count == dest.get_item_count() then
-            player.create_local_flying_text {text = {'chest.none-moved'}, position = chest.position}
-        else
-            player.create_local_flying_text {text = {'chest.some-moved'}, position = chest.position}
-        end
+    end
+
+    if src.is_empty() then
+        pdata.copy_src = nil
+        return flying_text(player, {'chest.all-moved'}, chest.position)
+    elseif count == chest.get_item_count() then
+        return flying_text(player, {'chest.none-moved'}, chest.position)
+    else
+        return flying_text(player, {'chest.some-moved'}, chest.position)
     end
 end
 Event.register('picker-paste-chest', paste_chest)
