@@ -14,7 +14,7 @@ local TECH = 'auto-character-logistic-trash-slots'
 
 local function check_filters(event)
     local player, pdata = Player.get(event.player_index)
-    if player.character and player.force.technologies[TECH].researched and player.mod_settings['picker-auto-stock'].value then
+    if player.character and player.force.technologies[TECH].researched and not game.active_mods['AutoTrash'] and player.mod_settings['picker-auto-stock'].value then
         local atf = player.auto_trash_filters
         if atf then
             -- add any temporarily ignored auto trash rules
@@ -86,5 +86,4 @@ local function check_filters(event)
         end
     end
 end
-
 Event.register(defines.events.on_player_main_inventory_changed, check_filters)

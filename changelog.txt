@@ -3,6 +3,7 @@ Version: 1.0.3
 Date: ??????
   Changes:
     - Better adjustment pad code.
+    - AutoTrash mod disables picker trash fixes.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.2
 Date: ??????

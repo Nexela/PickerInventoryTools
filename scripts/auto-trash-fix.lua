@@ -9,7 +9,7 @@ local Event = require('__stdlib__/stdlib/event/event')
 
 local function on_gui_opened(event)
     local player = game.players[event.player_index]
-    if player.opened_self and player.mod_settings['picker-fix-trash-filters'].value then
+    if player.opened_self and not game.active_mods['AutoTrash'] and player.mod_settings['picker-fix-trash-filters'].value then
         local character = player.character
         if character then
             for i = 1, character.request_slot_count do
