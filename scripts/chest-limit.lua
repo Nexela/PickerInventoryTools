@@ -2,7 +2,6 @@
 --[Chest Limiter]--
 -------------------------------------------------------------------------------
 local Event = require('__stdlib__/stdlib/event/event')
-local Gui = require('__stdlib__/stdlib/event/gui')
 local Player = require('__stdlib__/stdlib/event/player')
 local Pad = require('__PickerAtheneum__/utils/adjustment-pad')
 
@@ -19,68 +18,36 @@ local function get_match(stack)
     end
 end
 
-local function increase_decrease_reprogrammer(event, change)
+local function increase_decrease_reprogrammer(event)
     local player, pdata = Player.get(event.player_index)
-    if player.cursor_stack and player.cursor_stack.valid_for_read then
-        local stack = player.cursor_stack
-        if get_match(stack) then
-            pdata.chests = pdata.chests or {}
-            local bar = pdata.chests[stack.name] or 0
-            local text_field = Pad.get_or_create_adjustment_pad(player, 'chestlimit')['chestlimit_text_box']
-            if event.element and event.element.name == 'chestlimit_text_box' and not type(event.element.text) == 'number' then
-                return
-            elseif event.element and event.element.name == 'chestlimit_text_box' then
-                bar = tonumber(text_field.text)
+    local stack = player.cursor_stack
+    if get_match(stack) then
+        pdata.chests = pdata.chests or {}
+        local bar = pdata.chests[stack.name] or 0
+        local pad = Pad.get_or_create_adjustment_pad(player, 'chestlimit')
+        local text_field = pad['chestlimit_text_box']
+        if event.element and event.element.name == 'chestlimit_text_box' then
+            if not tonumber(event.element.text) then
+                bar = 0
             else
-                bar = math.max(0, bar + (change or 0))
+                bar = tonumber(event.element.text)
             end
-            pdata.chests[stack.name] = (bar or 0 > 0 and bar) or nil
-            text_field.text = bar or 0
+        elseif event.element and event.element.name == 'chestlimit_btn_reset' then
+            bar = 0
         else
-            Pad.remove_gui(player, 'chestlimit_frame_main')
+            bar = math.max(0, bar + (event.change or 0))
         end
+        pdata.chests[stack.name] = (bar > 0 and bar) or nil
+        text_field.text = bar
+        pad['chestlimit_btn_reset'].enabled = bar ~= 0
     else
         Pad.remove_gui(player, 'chestlimit_frame_main')
     end
 end
+local events = {defines.events.on_player_cursor_stack_changed}
+Pad.register_events('chestlimit', increase_decrease_reprogrammer, events)
 
-local function adjust_limit_pad(event)
-    local player = Player.get(event.player_index)
-    if get_match(player.cursor_stack) and Pad.get_or_create_adjustment_pad(player, 'chestlimit') then
-        if event.input_name == 'adjustment-pad-increase' then
-            increase_decrease_reprogrammer(event, 1)
-        elseif event.input_name == 'adjustment-pad-decrease' then
-            increase_decrease_reprogrammer(event, -1)
-        end
-    end
-end
-
-Gui.on_text_changed(
-    'chestlimit_text_box',
-    function(event)
-        increase_decrease_reprogrammer(event, 0)
-    end
-)
-Gui.on_click(
-    'chestlimit_btn_up',
-    function(event)
-        increase_decrease_reprogrammer(event, 1)
-    end
-)
-Gui.on_click(
-    'chestlimit_btn_dn',
-    function(event)
-        increase_decrease_reprogrammer(event, -1)
-    end
-)
-Gui.on_click(
-    'chestlimit_btn_reset',
-    function(event)
-        increase_decrease_reprogrammer(event, -99999999999)
-    end
-)
-
---Set the limit when chests are build and data is saved.
+--Set the limit when chests are built and data is saved.
 local function on_chest_built(event)
     if match_to_item[event.created_entity.type] then
         local _, pdata = Player.get(event.player_index)
@@ -94,12 +61,3 @@ local function on_chest_built(event)
     end
 end
 Event.register(defines.events.on_built_entity, on_chest_built)
-
-Event.register(defines.events.on_player_cursor_stack_changed, increase_decrease_reprogrammer)
-
-local function register()
-    local index = remote.call('PickerAtheneum', 'get_adjustment_pad_id')
-    Event.register(index, adjust_limit_pad)
-end
-Event.register(Event.core_events.init, register)
-Event.register(Event.core_events.load, register)
