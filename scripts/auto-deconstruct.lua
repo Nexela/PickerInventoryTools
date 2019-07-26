@@ -9,7 +9,9 @@ local Event = require('__stdlib__/stdlib/event/event')
 local Area = require('__stdlib__/stdlib/area/area')
 local Entity = require('__stdlib__/stdlib/entity/entity')
 local table = require('__stdlib__/stdlib/utils/table')
-local add_tick = require('__PickerAtheneum__/scripts/ticker')
+local start_tick = require('__PickerAtheneum__/scripts/intra-mod-ticker')
+
+local auto_deconstruct_event = Event.generate_event_name('picker-auto-deconstruct')
 
 local targets =
     table.array_to_dictionary {
@@ -28,42 +30,56 @@ local function has_targeters(entity)
     return false
 end
 
-local function has_resources(drill)
-    return drill.status ~= defines.entity_status.no_minable_resources
+local function deconstructable(entity)
+    return Entity.can_deconstruct(entity) and not Entity.is_circuit_connected(entity)
 end
 
-local function check_for_deconstruction(drill)
-    if drill.valid and not drill.to_be_deconstructed(drill.force) and Entity.can_deconstruct(drill) and not has_resources(drill) and not Entity.has_fluidbox(drill) and not Entity.is_circuit_connected(drill) then
-        if drill.order_deconstruction(drill.force) then
-            if settings.global['picker-autodeconstruct-target'].value then
-                local target = drill.drop_target
-                if target and targets[target.type] and not Entity.is_circuit_connected(target) and Entity.can_deconstruct(target) and not has_targeters(target) then
-                    target.order_deconstruction(drill.force)
+local function check_for_deconstruction(event)
+    local drill = event.entity
+    if drill and drill.valid then
+        if drill.status == defines.entity_status.no_minable_resources then
+            if not drill.to_be_deconstructed(drill.force) then
+                if deconstructable(drill) and not Entity.has_fluidbox(drill) then
+                    if drill.order_deconstruction(drill.force) then
+                        if settings.global['picker-autodeconstruct-target'].value then
+                            local target = drill.drop_target
+                            if target and targets[target.type] and deconstructable(target) and not has_targeters(target) then
+                                target.order_deconstruction(drill.force)
+                            end
+                        end
+                    end
                 end
             end
+        elseif not event.ran_once then
+            start_tick {
+                event_name = auto_deconstruct_event,
+                ran_once = true,
+                entity = drill
+            }
         end
     end
 end
+Event.on_event(auto_deconstruct_event, check_for_deconstruction)
 
 local function on_resource_depleted(event)
     if settings.global['picker-autodeconstruct'].value then
         local resource = event.entity
         local filter = {type = 'mining-drill', area = Area(resource.selection_box):expand(10)}
         for _, drill in pairs(resource.surface.find_entities_filtered(filter)) do
-            add_tick {
-                func = check_for_deconstruction,
-                params = drill
+            start_tick {
+                event_name = auto_deconstruct_event,
+                entity = drill
             }
         end
     end
 end
-Event.register(defines.events.on_resource_depleted, on_resource_depleted)
+Event.on_event(defines.events.on_resource_depleted, on_resource_depleted)
 
 local function init()
     for _, surface in pairs(game.surfaces) do
         for _, drill in pairs(surface.find_entities_filtered {type = 'mining-drill'}) do
-            check_for_deconstruction(drill)
+            check_for_deconstruction({entity = drill})
         end
     end
 end
-Event.register(Event.core_events.init, init)
+Event.on_init(init)
