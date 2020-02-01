@@ -55,8 +55,8 @@ local function on_chest_built(event)
         local entity = event.created_entity
         local bar = pdata.chests[entity.name]
         local inventory = entity.get_inventory(defines.inventory.chest)
-        if inventory and inventory.hasbar() and bar and bar > 0 then
-            inventory.setbar(bar + 1)
+        if inventory and inventory.supports_bar() and bar and bar > 0 then
+            inventory.set_bar(bar + 1)
         end
     end
 end
