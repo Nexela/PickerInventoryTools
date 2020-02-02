@@ -10,17 +10,17 @@ data:extend {
         name = 'picker-fix-trash-filters',
         setting_type = 'runtime-per-user',
         type = 'bool-setting',
-        default_value = true
+        default_value = false
     },
     {
         name = 'picker-auto-stock',
         setting_type = 'runtime-per-user',
         type = 'bool-setting',
-        default_value = true
+        default_value = false
     },
     {
-        type = 'bool-setting',
         name = 'picker-item-count',
+        type = 'bool-setting',
         setting_type = 'runtime-per-user',
         default_value = false,
         order = 'picker-b[itemcount]-a'
@@ -30,6 +30,12 @@ data:extend {
         setting_type = 'runtime-global',
         type = 'bool-setting',
         default_value = false
+    },
+    {
+        name = 'picker-moveable-chests',
+        setting_type = 'startup',
+        type = 'bool-setting',
+        default_value = true
     }
 }
 
