@@ -5,7 +5,7 @@ local Event = require('__stdlib__/stdlib/event/event')
 local Player = require('__stdlib__/stdlib/event/player')
 local Pad = require('__PickerAtheneum__/utils/adjustment-pad')
 
-local match_to_item = {
+local containers = {
     ['container'] = true,
     ['logistic-container'] = true,
     ['infinity-container'] = true,
@@ -13,7 +13,7 @@ local match_to_item = {
 }
 
 local function get_match(stack)
-    if stack.valid_for_read and stack.prototype.place_result and match_to_item[stack.prototype.place_result.type or 'nil'] then
+    if stack.valid_for_read and stack.prototype.place_result and containers[stack.prototype.place_result.type or 'nil'] then
         return true
     end
 end
@@ -49,7 +49,7 @@ Pad.register_events('chestlimit', increase_decrease_reprogrammer, events)
 
 --Set the limit when chests are built and data is saved.
 local function on_chest_built(event)
-    if match_to_item[event.created_entity.type] then
+    if containers[event.created_entity.type] then
         local _, pdata = Player.get(event.player_index)
         pdata.chests = pdata.chests or {}
         local entity = event.created_entity

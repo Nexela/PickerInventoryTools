@@ -7,22 +7,6 @@ local chest_types = {
     ['cargo-wagon'] = true
 }
 
-function Inventory.transfer_inventory(source, destination)
-    local filtered = source.is_filtered()
-    local destination_filterable = destination.supports_filters()
-    local source_count = #source
-    for i = 1, #destination do
-        if i <= source_count then
-            destination[i].transfer_stack(source[i])
-            if filtered and destination_filterable then
-                destination.set_filter(i, source.get_filter(i))
-            end
-        else
-            break
-        end
-    end
-end
-
 local function move_to_container(event)
     local stack = event.stack
     if stack and stack.name:find('^picker%-moveable%-') then
@@ -47,7 +31,6 @@ local function move_to_container(event)
             end
         end
         global.inventory_chest[stack.item_number] = nil
-        __DebugAdapter.print('test')
     end
 end
 
@@ -93,7 +76,6 @@ local function move_to_inventory(event)
                         end
                         data.request_from_buffers = chest.request_from_buffers
                     end
-                    __DebugAdapter.print('test')
                     chest.destroy()
                 end
             end

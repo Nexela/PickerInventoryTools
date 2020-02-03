@@ -7,7 +7,8 @@ local interface = require('__stdlib__/stdlib/scripts/interface')
 
 local chest_types = {
     ['container'] = true,
-    ['logistic-container'] = true
+    ['logistic-container'] = true,
+    ['cargo-wagon'] = true
 }
 
 local function flying_text(player, text, position)
@@ -145,6 +146,7 @@ function interface.set_blacklisted_chests(names, remove)
         return true
     end
 end
+
 function interface.get_blacklisted_chests()
     global.blacklisted_chests = global.blacklisted_chests or {}
     return table.keys(global.blacklisted_chests)
