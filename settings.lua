@@ -30,14 +30,19 @@ data:extend {
         setting_type = 'runtime-global',
         type = 'bool-setting',
         default_value = false
-    },
-    {
-        name = 'picker-moveable-chests',
-        setting_type = 'startup',
-        type = 'bool-setting',
-        default_value = true
     }
 }
+
+if not mods['packing-tape'] then
+    data:extend {
+        {
+            name = 'picker-moveable-chests',
+            setting_type = 'startup',
+            type = 'bool-setting',
+            default_value = false
+        }
+    }
+end
 
 require('settings/zapper')
 require('settings/auto-deconstruct')

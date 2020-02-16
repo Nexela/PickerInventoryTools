@@ -1,18 +1,20 @@
 local Event = require('__stdlib__/stdlib/event/event')
 local Inventory = require('__stdlib__/stdlib/entity/inventory')
 
+local setting = settings.get_startup('picker-moveable-chests')
+
 local chest_types = {
-    ['container'] = true,
-    ['logistic-container'] = true,
-    ['cargo-wagon'] = true
+    ['container'] = defines.inventory.chest,
+    ['logistic-container'] = defines.inventory.chest,
+    ['cargo-wagon'] = defines.inventory.cargo_wagon
 }
 
-local function move_to_container(event)
+local function inventory_to_container(event)
     local stack = event.stack
-    if stack and stack.name:find('^picker%-moveable%-') then
+    if stack and stack.valid_for_read and stack.name:find('^picker%-moveable%-') then
         local chest = event.created_entity
         local source = event.stack.get_inventory(defines.inventory.item_main)
-        local destination = chest.get_inventory(defines.inventory.chest)
+        local destination = chest.get_inventory(chest_types[chest.type])
 
         Inventory.transfer_inventory(source, destination)
         local data = global.inventory_chest[stack.item_number]
@@ -35,7 +37,7 @@ local function move_to_container(event)
 end
 
 -- Move the contents from the chest into an item in our inventory
-local function move_to_inventory(event)
+local function container_to_inventory(event)
     local chest = event.entity
     local item_name = 'picker-moveable-' .. chest.name
     if chest_types[chest.type] and game.item_prototypes[item_name] then
@@ -46,13 +48,15 @@ local function move_to_inventory(event)
             -- Is there an empty inventory spot?
             if p_inv.can_insert(item_name) then
                 -- Create an item-with-inventory in an available slot
-                local stack
+
+                local stack  -- 0.18.8 find_empty_stack(item_name)
                 for i = 1, #p_inv do
-                    if not p_inv[i].valid_for_read then
+                    if not p_inv[i].valid_for_read and p_inv[i].can_set_stack(item_name) then
                         stack = p_inv[i]
                         break
                     end
                 end
+
                 -- Should have stack since we can insert but check anyway.
                 if stack and stack.set_stack(item_name) then
                     stack.health = chest.get_health_ratio()
@@ -76,14 +80,23 @@ local function move_to_inventory(event)
                         end
                         data.request_from_buffers = chest.request_from_buffers
                     end
-                    chest.destroy()
+
+                    -- on_player_mined_item
+                    Event.raise_event(
+                        defines.events.on_player_mined_item,
+                        {
+                            item_stack = {name = item_name, count = 1},
+                            player_index = player.index
+                        }
+                    )
+
+                    -- on_player_mined_entity?
+                    chest.destroy({raise_destroy = true})
                 end
             end
         end
     end
 end
 
-if settings.startup['picker-moveable-chests'].value then
-    Event.on_event(defines.events.on_built_entity, move_to_container)
-    Event.on_event(defines.events.on_pre_player_mined_item, move_to_inventory)
-end
+Event.register_if(setting, defines.events.on_built_entity, inventory_to_container)
+Event.register_if(setting, defines.events.on_pre_player_mined_item, container_to_inventory)
