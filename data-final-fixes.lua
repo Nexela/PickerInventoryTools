@@ -1,1 +1,1 @@
-require('prototypes/move-chest')
+require('prototypes/packing-tape')

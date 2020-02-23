@@ -1,10 +1,8 @@
---------------------------------------------------------------------------------
---[[autodeconstruct]] --
---------------------------------------------------------------------------------
---"title": "Auto Deconstruct",
---"author": "mindmix",
---"description": "This mod marks drills that have no more resources to mine for deconstruction."
-
+--[[
+    "title": "Auto Deconstruct",
+    "author": "mindmix",
+    "description": "This mod marks drills that have no more resources to mine for deconstruction."
+--]]
 local Event = require('__stdlib__/stdlib/event/event')
 local Area = require('__stdlib__/stdlib/area/area')
 local Entity = require('__stdlib__/stdlib/entity/entity')

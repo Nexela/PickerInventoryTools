@@ -1,6 +1,7 @@
--------------------------------------------------------------------------------
---[Picker Item Count]--
--------------------------------------------------------------------------------
+--[[
+    "author": "ThaPear"
+    "name": "Item Count"
+--]]
 local Event = require('__stdlib__/stdlib/event/event')
 
 local function get_or_create_itemcount_gui(player)
@@ -34,7 +35,7 @@ local item_count_events = {
     defines.events.on_player_cursor_stack_changed,
     defines.events.on_player_driving_changed_state,
     defines.events.on_player_main_inventory_changed,
-    defines.events.on_player_ammo_inventory_changed,
+    defines.events.on_player_ammo_inventory_changed
 }
 Event.register(item_count_events, get_itemcount_counts)
 

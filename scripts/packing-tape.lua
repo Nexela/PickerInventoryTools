@@ -1,5 +1,16 @@
+--[[
+    "name": "packing-tape",
+    "title": "Packing Tape",
+    "author": "calcwizard",
+    "description": "Mining a chest or wagon allows players to pick it up with all the items inside and carry it in their inventory. Now supports cars!"
+--]]
+
 local Event = require('__stdlib__/stdlib/event/event')
 local Inventory = require('__stdlib__/stdlib/entity/inventory')
+
+if script.active_mods['packing-tape'] then
+    return
+end
 
 local setting = settings.get_startup('picker-moveable-chests')
 
@@ -11,8 +22,8 @@ local chest_types = {
 
 local function inventory_to_container(event)
     local stack = event.stack
-    if stack and stack.valid_for_read and stack.name:find('^picker%-moveable%-') then
-        local chest = event.created_entity
+    local chest = event.created_entity
+    if chest_types[chest.type] and stack and stack.valid_for_read and stack.name:find('^picker%-moveable%-') then
         local source = event.stack.get_inventory(defines.inventory.item_main)
         local destination = chest.get_inventory(chest_types[chest.type])
 

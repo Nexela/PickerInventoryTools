@@ -11,6 +11,8 @@ local chest_types = {
     ['cargo-wagon'] = true
 }
 
+local api_check = 'picker_chest_contents_mover_check'
+
 local function flying_text(player, text, position)
     return player.create_local_flying_text{text = text, position = position}
 end
@@ -99,7 +101,6 @@ local function paste_chest(event)
         return flying_text(player, {'chest.not-same-surface'}, chest.position)
     end
 
-    local api_check = 'picker_chest_contents_mover_check'
     local interfaces = remote.interfaces
     for name in pairs(interfaces) do
         if interfaces[name][api_check] then

@@ -2,7 +2,11 @@
 Version: 1.1.2
 Date: ????
   Features:
-    - Chests with items can be mined and placed with items inside of them.
+    - Added Packing Tape Lite, Chests with items can be mined and placed with items inside of them. (off by default)
+    - Added Cursor Carousel, Use [CTRL + MOUSEWHEEL] to select upgrade versions of items in hand.
+  Bugfixes:
+    - Fix max number error with filter fill requesters.
+    - Filter fill requesters no longer has to close the inventory.
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.1
 Date: ????

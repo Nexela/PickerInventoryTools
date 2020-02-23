@@ -1,3 +1,9 @@
+--[[
+    "name": "packing-tape",
+    "title": "Packing Tape",
+    "author": "calcwizard",
+    "description": "Mining a chest or wagon allows players to pick it up with all the items inside and carry it in their inventory. Now supports cars!"
+--]]
 local Data = require('__stdlib__/stdlib/data/data')
 local Entity = require('__stdlib__/stdlib/data/entity')
 local Item = require('__stdlib__/stdlib/data/item')
@@ -34,7 +40,7 @@ if settings.get_startup('picker-moveable-chests') then
         for _, container in Entity:pairs(container_type, {silent = true}) do
             if not (skip_chests[container.name] or container.not_inventory_moveable) then
                 local item = container:is_player_placeable() and container:get_minable_item()
-                if item:is_valid() then
+                if item and item:is_valid() then
                     Item {
                         name = 'picker-moveable-' .. container.name,
                         type = 'item-with-inventory',

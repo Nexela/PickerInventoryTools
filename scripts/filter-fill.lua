@@ -1,12 +1,16 @@
--------------------------------------------------------------------------------
---[[FAST FILTER FILL]] --
--------------------------------------------------------------------------------
---Code modified from: "Fast Filter Fill" by: "Keryja, SeaRyanC"
-
+--[[
+    "name": "fast-filter-fill",
+    "title": "Fast Filter Fill",
+    "author": "Keryja, SeaRyanC",
+    "contact": "http://github.com/keryja/",
+    "homepage": "https://mods.factorio.com/keryja/fast-filter-fill",
+    "description": "Quickly duplicate filter settings in Cargo Wagons and other filterable containers",
+--]]
 local Event = require('__stdlib__/stdlib/event/event')
 local Gui = require('__stdlib__/stdlib/event/gui')
 local Inventory = require('__stdlib__/stdlib/entity/inventory')
-local table = require('__stdlib__/stdlib/utils/table')
+local Table = require('__stdlib__/stdlib/utils/table')
+local Math = require('__stdlib__/stdlib/utils/math')
 local lib = require('__PickerAtheneum__/utils/lib')
 
 --(( GUI ))--
@@ -15,6 +19,8 @@ local GUI_TYPES = {
     [defines.gui_type.controller] = true,
     [defines.gui_type.entity] = true
 }
+
+local floor, ceil = math.floor, math.ceil
 
 --[flow][frame][[table[#btns]][table[#btns]]]
 local function get_or_create_filterfill_gui(player, destroy)
@@ -112,6 +118,11 @@ end
 --))
 
 --(( FILTERS ))--
+
+local function safe_number(num)
+    return (num < Math.MAX_UINT) and num or (Math.MAX_UINT - 1)
+end
+
 -- Filtering: Filter all cells of the opened container with the
 -- contents of the player's cursor stack, or the first item in the container,
 -- or the first filter in the container
@@ -147,7 +158,7 @@ local function filterfill_down(event)
     local inventory = get_opened_inventory(player)
     if inventory then
         local size = #inventory
-        local rows = math.ceil(size / INVENTORY_COLUMNS)
+        local rows = ceil(size / INVENTORY_COLUMNS)
         for c = 1, INVENTORY_COLUMNS do
             local desired = Inventory.get_item_or_filter(inventory, c)
             for r = 1, rows do
@@ -168,7 +179,7 @@ local function filterfill_right(event)
     local inventory = get_opened_inventory(player)
     if inventory then
         local size = #inventory
-        local rows = math.ceil(size / INVENTORY_COLUMNS)
+        local rows = ceil(size / INVENTORY_COLUMNS)
         --local desired
         for r = 1, rows do
             local desired = Inventory.get_item_or_filter(inventory, 1 + (r - 1) * INVENTORY_COLUMNS)
@@ -213,27 +224,17 @@ Gui.on_click('filterfill_filters_btn_clear_all', filterfill_clear_all)
 --(( REQUESTS ))--
 local function requests_fill(event)
     local player = game.players[event.player_index]
-    local totalStackRequests = 0
     if player.opened then
-        -- Add up how many total stacks we need here
         for i = 1, player.opened.request_slot_count do
             local item = player.opened.get_request_slot(i)
             if item then
-                totalStackRequests = totalStackRequests + item.count / game.item_prototypes[item.name].stack_size
-            end
-        end
-        -- Go back and re-set each thing according to its rounded-up stack size
-        for i = 1, player.opened.request_slot_count do
-            local item = player.opened.get_request_slot(i)
-            if item then
-                local stacksToRequest = math.ceil(item.count / game.item_prototypes[item.name].stack_size)
-                local numberToRequest = stacksToRequest * game.item_prototypes[item.name].stack_size
-                player.opened.set_request_slot({name = item.name, count = numberToRequest}, i)
+                -- If requesting 2.5 stacks, then request 3
+                local stacks_to_request = ceil(item.count / game.item_prototypes[item.name].stack_size)
+                local number_to_request = stacks_to_request * game.item_prototypes[item.name].stack_size
+                player.opened.set_request_slot({name = item.name, count = safe_number(number_to_request)}, i)
             end
         end
     end
-    event.element.parent.parent.destroy()
-    player.opened = nil
 end
 Gui.on_click('filterfill_requests_btn_max', requests_fill)
 
@@ -245,14 +246,13 @@ local function multiply_filter(event)
         for i = 1, opened.request_slot_count do
             local existing = opened.get_request_slot(i)
             if existing and factor > 0 then
-                opened.set_request_slot({name = existing.name, count = math.floor(existing.count * factor)}, i)
+                local count = safe_number(floor(existing.count) * factor)
+                opened.set_request_slot({name = existing.name, count = count}, i)
             else
                 opened.clear_request_slot(i)
             end
         end
     end
-    event.element.parent.parent.destroy()
-    player.opened = nil
 end
 Gui.on_click('filterfill_requests_btn_%d+x', multiply_filter)
 
@@ -264,24 +264,22 @@ local function blueprint_requests(event)
     local blueprint = Inventory.get_blueprint(player.cursor_stack, true) or (chest_inv and Inventory.get_blueprint(chest_inv[1], true, true))
     if chest then
         if blueprint then
-            for i = 1, chest.request_slot_count do
+            local slot_count = chest.request_slot_count
+            for i = 1, slot_count do
                 chest.clear_request_slot(i)
             end
             local i = 1
-            table.each(
+            Table.each(
                 blueprint.cost_to_build,
                 function(v, k)
-                    if i < chest.request_slot_count then
-                        chest.set_request_slot({name = k, count = v}, i)
+                    if i < slot_count then
+                        chest.set_request_slot({name = k, count = safe_number(v)}, i)
                         i = i + 1
                     else
                         return true
                     end
                 end
             )
-
-            event.element.parent.parent.destroy()
-            player.opened = nil
         else
             player.print({'filterfill.no-blueprint'})
         end

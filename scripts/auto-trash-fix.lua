@@ -16,10 +16,10 @@ local function on_gui_opened(event)
                 local request = character.get_request_slot(i)
                 if request then
                     local filters = character.auto_trash_filters
-                    for trashKey, trashVal in pairs(filters) do
-                        if request.name == trashKey then
-                            if request.count > trashVal then
-                                filters[trashKey] = request.count
+                    for trash_key, trash_val in pairs(filters) do
+                        if request.name == trash_key then
+                            if request.count > trash_val then
+                                filters[trash_key] = request.count
                                 player.auto_trash_filters = filters
                             end
                         end

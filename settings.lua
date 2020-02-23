@@ -33,16 +33,8 @@ data:extend {
     }
 }
 
-if not mods['packing-tape'] then
-    data:extend {
-        {
-            name = 'picker-moveable-chests',
-            setting_type = 'startup',
-            type = 'bool-setting',
-            default_value = false
-        }
-    }
-end
 
+require('settings/packing-tape')
 require('settings/zapper')
 require('settings/auto-deconstruct')
+require('settings/cursor-carousel')
