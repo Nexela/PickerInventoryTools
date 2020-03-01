@@ -9,7 +9,7 @@
     "homepage": "",
     "description": "Quick Inventory filtering and sorting",
     "package": {
-      "ignore": ["makefile"],
+      "ignore": [],
       "scripts": {
         "datestamp": "../PickerAtheneum/.publish/datestamp.sh",
         "prepackage": "../PickerAtheneum/.publish/prepackage.sh",
