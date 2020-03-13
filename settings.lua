@@ -7,18 +7,6 @@ data:extend {
         order = 'a'
     },
     {
-        name = 'picker-fix-trash-filters',
-        setting_type = 'runtime-per-user',
-        type = 'bool-setting',
-        default_value = false
-    },
-    {
-        name = 'picker-auto-stock',
-        setting_type = 'runtime-per-user',
-        type = 'bool-setting',
-        default_value = false
-    },
-    {
         name = 'picker-item-count',
         type = 'bool-setting',
         setting_type = 'runtime-per-user',
