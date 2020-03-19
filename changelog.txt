@@ -8,8 +8,8 @@ Date: ????
     - Fix max number error with filter fill requesters.
     - Filter fill requesters no longer has to close the inventory.
   Changes:
-    - Removed Auto Stock in favor of upcoming character gui changes.
-    - Removed Auto Trash Fix in favor of upcoming character gui changes.
+    - Removed Auto Stock as it is not needed with character gui update.
+    - Removed Auto Trash Fix as it is not needed with character gui update.
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.1
 Date: ????
