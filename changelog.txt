@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.2
-Date: ????
+Date: 2020-03-19
   Features:
     - Added Packing Tape Lite, Chests with items can be mined and placed with items inside of them. (off by default)
     - Added Cursor Carousel, Use [CTRL + MOUSEWHEEL] to select upgrade versions of items in hand.
