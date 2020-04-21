@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.3
-Date: ????
+Date: 2020-04-21
   Features:
     - Added hotkey to switch the players gun while driving.
     - Added hotkeys and Shortcuts for Power Armor Modules.
