@@ -21,8 +21,9 @@ data:extend {
     }
 }
 
-
-require('settings/packing-tape')
-require('settings/zapper')
 require('settings/auto-deconstruct')
 require('settings/cursor-carousel')
+require('settings/item-zapper')
+require('settings/packing-tape')
+require('settings/toggle-groups')
+require('settings/toggle-minimap')

@@ -50,3 +50,8 @@ Use [CTRL + MOUSEWHEEL] to rotate through cursor item upgrades and downgrades. B
 ## Picker Packing Tape Lite
 
 Mining chests containing items will give you a single inventory chest containing all the items. Based on Packing Tape by Calcwizard. Startup setting: defaults to off, also disables if Packing Tape mod is active.
+
+# Picker EquipmentKeys
+
+Adds hotkeys and shortcuts for enabling and disabling power armor equipment.
+Adds a keybind to switch the players gun while they are in a vehicle.
