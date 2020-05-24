@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.6
-Date: ????
+Date: 2020-05-24
   Features:
     - Add per player settings for Filter Fill and Bar Limit guis.
   Changes:
