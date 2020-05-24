@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.6
 Date: ????
+  Features:
+    - Add per player settings for Filter Fill and Bar Limit guis.
   Changes:
     - Remove use of script.raise_event.
 ---------------------------------------------------------------------------------------------------
