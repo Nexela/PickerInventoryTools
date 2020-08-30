@@ -92,7 +92,7 @@ local function cycle_carousel(event)
         -- if we're in the map editor and the setting is enabled, always give the actual item
         local always_give = settings['picker-carousel-always-give-in-map-editor'].value
         -- if the thing we're holding has an upgrade/downgrade
-        if registry[name] and registry[name][grade] and player.clean_cursor() then
+        if registry[name] and registry[name][grade] and player.clear_cursor() then
             local grade_name = registry[name][grade]
             local inventory = player.get_main_inventory()
             local contents = inventory.get_contents()
