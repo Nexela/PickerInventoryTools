@@ -2,6 +2,7 @@
 Version: 1.1.7
 Date: ????
   Changes:
+    - Remove main inventory zapping as selection tools are a lot smarter now.
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.6
 Date: 2020-05-24
