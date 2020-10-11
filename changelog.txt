@@ -3,6 +3,8 @@ Version: 1.1.8
 Date: ????
   Bugfixes:
     - Fix missing control locale.
+  Changes:
+    - Clean up prototype loading.
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.7
 Date: 2020-09-22
