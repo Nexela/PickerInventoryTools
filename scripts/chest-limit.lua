@@ -41,7 +41,7 @@ local function increase_decrease_reprogrammer(event)
             bar = math.max(0, bar + (event.change or 0))
         end
         pdata.chests[stack.name] = (bar > 0 and bar) or nil
-        text_field.text = bar
+        text_field.text = tostring(bar)
         pad['chestlimit_btn_reset'].enabled = bar ~= 0
     else
         Pad.remove_gui(player, 'chestlimit_frame_main')
