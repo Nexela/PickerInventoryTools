@@ -1,8 +1,16 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.1.7
+Version: 1.1.8
 Date: ????
+  Bugfixes:
+    - Fix missing control locale.
   Changes:
+    - Clean up prototype loading.
     - clean_cursor renamed to clear_cursor.
+---------------------------------------------------------------------------------------------------
+Version: 1.1.7
+Date: 2020-09-22
+  Changes:
+    - Remove main inventory zapping as selection tools are a lot smarter now.
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.6
 Date: 2020-05-24

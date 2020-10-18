@@ -24,8 +24,6 @@ for _, v in pairs(data.raw['active-defense-equipment']) do
         t.take_result = t.take_result or t.name
         t.energy_source.type = 'void'
         t.name = 'picker-disabled-' .. t.name
-        t.energy_consumption = '1W'
-        t.movement_bonus = 0
         t.automatic = false
         t.ability_icon = {
             filename = '__PickerInventoryTools__/graphics/discharge-defense-equipment-ability.png',
