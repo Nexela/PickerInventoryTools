@@ -20,7 +20,9 @@ end
 
 do -- Loading code
     local function load_inventory(event)
-        local stack_id = event.stack and event.stack.name:find('^picker%-moveable%-') and event.stack.item_number
+        if not (event.stack and event.stack.valid_for_read) then return end
+
+        local stack_id = event.stack.name:find('^picker%-moveable%-') and event.stack.item_number
         if not stack_id then return end
 
         local data = global.inventory_chest[stack_id]
