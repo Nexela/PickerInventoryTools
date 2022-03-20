@@ -13,7 +13,7 @@ local Entity = require('__stdlib__/stdlib/data/entity')
 local Item = require('__stdlib__/stdlib/data/item')
 local Table = require('__stdlib__/stdlib/utils/table')
 
-if mods['packing-tape'] or not settings.get_startup('picker-moveable-chests') then return end
+if mods['packing-tape'] or not settings['startup']['picker-moveable-chests'].value then return end
 
 local chest_types = {'container', 'logistic-container'}
 

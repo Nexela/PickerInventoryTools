@@ -8,7 +8,7 @@
 local Event = require('__stdlib__/stdlib/event/event')
 local Inventory = require('__stdlib__/stdlib/entity/inventory')
 
-if script.active_mods['packing-tape'] or not settings.get_startup('picker-moveable-chests') then return end
+if script.active_mods['packing-tape'] or not settings['startup']['picker-moveable-chests'] then return end
 
 local chests = {['container'] = defines.inventory.chest, ['logistic-container'] = defines.inventory.chest}
 
