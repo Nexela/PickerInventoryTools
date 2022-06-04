@@ -55,4 +55,7 @@ for _, container_type in pairs(chest_types) do
         end
     end
 end
-__DebugAdapter.print('Created ' .. count .. ' moveable chests.')
+
+if __DebugAdapter then
+    __DebugAdapter.print('Created ' .. count .. ' moveable chests.')
+end
