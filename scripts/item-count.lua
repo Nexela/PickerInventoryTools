@@ -7,7 +7,7 @@ local Event = require('__stdlib__/stdlib/event/event')
 local function get_or_create_itemcount_gui(player)
     local gui = player.gui.center.itemcount
     if not gui then
-        gui = player.gui.center.add {type = 'label', name = 'itemcount', caption = '0', direction = 'vertical'}
+        gui = player.gui.center.add { type = 'label', name = 'itemcount', caption = '0', direction = 'vertical' }
         gui.style.font = 'default-bold'
     end
     local enabled = player.mod_settings['picker-item-count'].value

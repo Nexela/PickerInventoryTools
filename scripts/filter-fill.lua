@@ -14,7 +14,7 @@ local Math = require('__stdlib__/stdlib/utils/math')
 local mod_gui = require('mod-gui')
 
 local INVENTORY_COLUMNS = 10
-local GUI_TYPES = {[defines.gui_type.controller] = true, [defines.gui_type.entity] = true}
+local GUI_TYPES = { [defines.gui_type.controller] = true, [defines.gui_type.entity] = true }
 
 local floor, ceil = math.floor, math.ceil
 
@@ -23,90 +23,91 @@ local function get_or_create_filterfill_gui(player)
 
     if flow.filterfill_requests then return flow end
 
-    local requests = flow.add{type = 'table', name = 'filterfill_requests', column_count = 6, style = 'picker_table'}
-    requests.add{
+    local requests = flow.add { type = 'table', name = 'filterfill_requests', column_count = 6, style = 'picker_table' }
+    requests.add {
         type = 'sprite-button',
         name = 'filterfill_requests_btn_bp',
         sprite = 'picker-request-bp',
-        tooltip = {'filterfill.btn-bp'},
+        tooltip = { 'filterfill.btn-bp' },
         style = mod_gui.button_style
     }
-    requests.add{
+    requests.add {
         type = 'sprite-button',
         name = 'filterfill_requests_btn_2x',
         sprite = 'picker-request-2x',
-        tooltip = {'filterfill.btn-2x'},
+        tooltip = { 'filterfill.btn-2x' },
         style = mod_gui.button_style
     }
-    requests.add{
+    requests.add {
         type = 'sprite-button',
         name = 'filterfill_requests_btn_5x',
         sprite = 'picker-request-5x',
-        tooltip = {'filterfill.btn-5x'},
+        tooltip = { 'filterfill.btn-5x' },
         style = mod_gui.button_style
     }
-    requests.add{
+    requests.add {
         type = 'sprite-button',
         name = 'filterfill_requests_btn_10x',
         sprite = 'picker-request-10x',
-        tooltip = {'filterfill.btn-10x'},
+        tooltip = { 'filterfill.btn-10x' },
         style = mod_gui.button_style
     }
-    requests.add{
+    requests.add {
         type = 'sprite-button',
         name = 'filterfill_requests_btn_max',
         sprite = 'picker-request-max',
-        tooltip = {'filterfill.btn-max'},
+        tooltip = { 'filterfill.btn-max' },
         style = mod_gui.button_style
     }
-    requests.add{
+    requests.add {
         type = 'sprite-button',
         name = 'filterfill_requests_btn_0x',
         sprite = 'picker-request-clear',
-        tooltip = {'filterfill.btn-clear'},
+        tooltip = { 'filterfill.btn-clear' },
         style = mod_gui.button_style
     }
 
-    local filters = flow.add{type = 'table', name = 'filterfill_filters', column_count = 5, style = 'picker_table'}
-    filters.add{
+    local filters = flow.add { type = 'table', name = 'filterfill_filters', column_count = 5, style = 'picker_table' }
+    filters.add {
         type = 'sprite-button',
         name = 'filterfill_filters_btn_all',
         sprite = 'picker-filters-all',
-        tooltip = {'filterfill.btn-all'},
+        tooltip = { 'filterfill.btn-all' },
         style = mod_gui.button_style
     }
-    filters.add{
+    filters.add {
         type = 'sprite-button',
         name = 'filterfill_filters_btn_down',
         sprite = 'picker-filters-down',
-        tooltip = {'filterfill.btn-down'},
+        tooltip = { 'filterfill.btn-down' },
         style = mod_gui.button_style
     }
-    filters.add{
+    filters.add {
         type = 'sprite-button',
         name = 'filterfill_filters_btn_right',
         sprite = 'picker-filters-right',
-        tooltip = {'filterfill.btn-right'},
+        tooltip = { 'filterfill.btn-right' },
         style = mod_gui.button_style
     }
-    filters.add{
+    filters.add {
         type = 'sprite-button',
         name = 'filterfill_filters_btn_set_all',
         sprite = 'picker-filters-set-all',
-        tooltip = {'filterfill.btn-set-all'},
+        tooltip = { 'filterfill.btn-set-all' },
         style = mod_gui.button_style
     }
-    filters.add{
+    filters.add {
         type = 'sprite-button',
         name = 'filterfill_filters_btn_clear_all',
         sprite = 'picker-filters-clear-all',
-        tooltip = {'filterfill.btn-clear-all'},
+        tooltip = { 'filterfill.btn-clear-all' },
         style = mod_gui.button_style
     }
     -- end
     return flow
 end
 
+---@return uint
 local function safe_number(num)
     return (num < Math.MAX_UINT) and num or (Math.MAX_UINT - 1)
 end
@@ -137,7 +138,7 @@ local function filterfill_all(event)
     if inventory then
         -- Get the contents of the player's cursor stack, or the first cell
         local desired = (player.cursor_stack.valid_for_read and player.cursor_stack.name) or
-                            Inventory.get_item_or_filter(inventory, 1)
+            Inventory.get_item_or_filter(inventory, 1)
         for i = 1, #inventory do
             local current = not event.shift and Inventory.get_item_or_filter(inventory, i)
             inventory.set_filter(i, current or desired or nil)
@@ -214,12 +215,12 @@ local function requests_fill(event)
     local player = game.players[event.player_index]
     if player.opened then
         for i = 1, player.opened.request_slot_count do
-            local item = player.opened.get_request_slot(i)
+            local item = player.opened.get_request_slot(i--[[@as uint]] )
             if item then
                 -- If requesting 2.5 stacks, then request 3
                 local stacks_to_request = ceil(item.count / game.item_prototypes[item.name].stack_size)
                 local number_to_request = stacks_to_request * game.item_prototypes[item.name].stack_size
-                player.opened.set_request_slot({name = item.name, count = safe_number(number_to_request)}, i)
+                player.opened.set_request_slot({ name = item.name, count = safe_number(number_to_request) }, i--[[@as uint]] )
             end
         end
     end
@@ -232,12 +233,12 @@ local function multiply_filter(event)
     if opened then
         local factor = tonumber(event.element.name:match('%d+'))
         for i = 1, opened.request_slot_count do
-            local existing = opened.get_request_slot(i)
+            local existing = opened.get_request_slot(i--[[@as uint]] )
             if existing and factor > 0 then
                 local count = safe_number(floor(existing.count) * factor)
-                opened.set_request_slot({name = existing.name, count = count}, i)
+                opened.set_request_slot({ name = existing.name, count = count }, i--[[@as uint]] )
             else
-                opened.clear_request_slot(i)
+                opened.clear_request_slot(i--[[@as uint]] )
             end
         end
     end
@@ -250,22 +251,22 @@ local function blueprint_requests(event)
     local chest = player.opened
     local chest_inv = chest and chest.get_output_inventory()
     local blueprint = Inventory.get_blueprint(player.cursor_stack, true) or
-                          (chest_inv and Inventory.get_blueprint(chest_inv[1], true, true))
+        (chest_inv and Inventory.get_blueprint(chest_inv[1], true, true))
     if chest then
         if blueprint then
             local slot_count = chest.request_slot_count
-            for i = 1, slot_count do chest.clear_request_slot(i) end
+            for i = 1, slot_count do chest.clear_request_slot(i--[[@as uint]] ) end
             local i = 1
             Table.each(blueprint.cost_to_build, function(v, k)
                 if i < slot_count then
-                    chest.set_request_slot({name = k, count = safe_number(v)}, i)
+                    chest.set_request_slot({ name = k, count = safe_number(v) }, i)
                     i = i + 1
                 else
                     return true
                 end
             end)
         else
-            player.print({'filterfill.no-blueprint'})
+            player.print { 'filterfill.no-blueprint' }
         end
     else
         event.element.parent.parent.destroy()
@@ -282,8 +283,8 @@ local function check_for_filterable_inventory(event)
         local requester = false
         local opened = player.opened
         if opened and opened.type == 'logistic-container' then
-            local ptype = opened.prototype
-            if ptype.logistic_mode == 'requester' or ptype.logistic_mode == 'buffer' then requester = true end
+            local prototype = opened.prototype --[[@as LuaEntityPrototype]]
+            if prototype.logistic_mode == 'requester' or prototype.logistic_mode == 'buffer' then requester = true end
         end
         local settings = player.mod_settings
         local use_filter_requests = settings['picker-filter-requests'].value
@@ -296,4 +297,4 @@ local function check_for_filterable_inventory(event)
         flow['filterfill_filters'].visible = false
     end
 end
-Event.register({defines.events.on_gui_opened, defines.events.on_gui_closed}, check_for_filterable_inventory)
+Event.register({ defines.events.on_gui_opened, defines.events.on_gui_closed }, check_for_filterable_inventory)

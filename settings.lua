@@ -20,7 +20,7 @@ data:extend {
         default_value = true,
         order = 'ac'
     },
-        {
+    {
         type = 'bool-setting',
         name = 'picker-use-bar-limit',
         setting_type = 'runtime-per-user',

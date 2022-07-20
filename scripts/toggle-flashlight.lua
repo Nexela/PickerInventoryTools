@@ -11,7 +11,7 @@ local function toggle_flashlight(event)
         else
             character.enable_flashlight()
         end
-        player.play_sound({path = 'utility/wire_connect_pole', position = player.position, volume = 1})
+        player.play_sound { path = 'utility/wire_connect_pole', position = player.position, volume = 1 }
     end
 end
 Event.register('toggle-flashlight', toggle_flashlight)

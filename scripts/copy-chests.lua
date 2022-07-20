@@ -12,7 +12,7 @@ local chest_types = {
 local api_check = 'picker_chest_contents_mover_check'
 
 local function flying_text(player, text, position)
-    return player.create_local_flying_text{text = text, position = position}
+    return player.create_local_flying_text { text = text, position = position }
 end
 
 -- Copy on empty spot, nil copy_src
@@ -34,16 +34,16 @@ local function copy_chest(event)
     end
 
     if not chest_types[chest.type] then
-        return flying_text(player, {'chest.containers'}, chest.position)
+        return flying_text(player, { 'chest.containers' }, chest.position)
     end
 
     if global.blacklisted_chests[chest.name] then
-        return flying_text(player, {'chest.blacklisted', chest.localised_name}, chest.position)
+        return flying_text(player, { 'chest.blacklisted', chest.localised_name }, chest.position)
     end
 
     local p_force, c_force = player.force, chest.force
     if not (p_force == c_force or c_force.name == 'neutral' or c_force.get_friend(p_force)) then
-        return flying_text(player, {'cant-transfer-from-enemy-structures'}, chest.position)
+        return flying_text(player, { 'cant-transfer-from-enemy-structures' }, chest.position)
     end
 
     local inventory = chest.get_inventory(defines.inventory.chest)
@@ -54,9 +54,9 @@ local function copy_chest(event)
             ent = chest,
             tick = event.tick
         }
-        return flying_text(player, {'chest.copy-src'}, chest.position)
+        return flying_text(player, { 'chest.copy-src' }, chest.position)
     else
-        return flying_text(player, {'chest.empty-src'}, chest.position)
+        return flying_text(player, { 'chest.empty-src' }, chest.position)
     end
 end
 Event.register('picker-copy-chest', copy_chest)
@@ -74,29 +74,29 @@ local function paste_chest(event)
     end
 
     if not chest_types[chest.type] then
-        return flying_text(player, {'chest.containers'}, chest.position)
+        return flying_text(player, { 'chest.containers' }, chest.position)
     end
 
     local p_force, c_force = player.force, chest.force
     if not (p_force == c_force or c_force.name == 'neutral' or c_force.get_friend(p_force)) then
-        return flying_text(player, {'cant-transfer-to-enemy-structures'}, chest.position)
+        return flying_text(player, { 'cant-transfer-to-enemy-structures' }, chest.position)
     end
 
     if global.blacklisted_chests[chest.name] then
-        return flying_text(player, {'chest.blacklisted', chest.localised_name}, chest.position)
+        return flying_text(player, { 'chest.blacklisted', chest.localised_name }, chest.position)
     end
 
     if not (pdata.copy_src.inv and pdata.copy_src.inv.valid and not pdata.copy_src.inv.is_empty()) then
         pdata.copy_src = nil
-        return flying_text(player, {'chest.no-copy-from'}, chest.position)
+        return flying_text(player, { 'chest.no-copy-from' }, chest.position)
     end
 
     if chest == pdata.copy_src.ent then
-        return flying_text(player, {'chest.same-inventory'}, chest.position)
+        return flying_text(player, { 'chest.same-inventory' }, chest.position)
     end
 
     if pdata.copy_src.surface ~= chest.surface and not settings.global['picker-copy-between-surfaces'].value then
-        return flying_text(player, {'chest.not-same-surface'}, chest.position)
+        return flying_text(player, { 'chest.not-same-surface' }, chest.position)
     end
 
     local interfaces = remote.interfaces
@@ -119,11 +119,11 @@ local function paste_chest(event)
 
     if src.is_empty() then
         pdata.copy_src = nil
-        return flying_text(player, {'chest.all-moved'}, chest.position)
+        return flying_text(player, { 'chest.all-moved' }, chest.position)
     elseif count == chest.get_item_count() then
-        return flying_text(player, {'chest.none-moved'}, chest.position)
+        return flying_text(player, { 'chest.none-moved' }, chest.position)
     else
-        return flying_text(player, {'chest.some-moved'}, chest.position)
+        return flying_text(player, { 'chest.some-moved' }, chest.position)
     end
 end
 Event.register('picker-paste-chest', paste_chest)

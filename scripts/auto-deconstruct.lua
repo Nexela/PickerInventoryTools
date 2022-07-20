@@ -11,7 +11,7 @@ local push_tick = require('__PickerAtheneum__/scripts/intra-mod-ticker')
 local auto_deconstruct_event = Event.generate_event_name('picker-auto-deconstruct')
 
 local targets =
-    table.array_to_dictionary {
+table.array_to_dictionary {
     'container',
     'logistic-container',
     'infinity-container'
@@ -20,7 +20,7 @@ local targets =
 local enabled = not script.active_mods['AutoDeconstruct']
 
 local function has_other_drop_targets(entity)
-    local filter = {force = entity.force, position = entity.position, radius = 6, type = 'mining-drill'}
+    local filter = { force = entity.force, position = entity.position, radius = 6, type = 'mining-drill' }
     for _, ent in pairs(entity.surface.find_entities_filtered(filter)) do
         if ent.drop_target == entity and not ent.to_be_deconstructed(entity.force) then
             return true
@@ -67,7 +67,7 @@ Event.on_event(auto_deconstruct_event, check_for_deconstruction)
 local function on_resource_depleted(event)
     if settings.global['picker-autodeconstruct'].value then
         local resource = event.entity
-        local filter = {type = 'mining-drill', radius = 6, position = resource.position}
+        local filter = { type = 'mining-drill', radius = 6, position = resource.position }
         for _, drill in pairs(resource.surface.find_entities_filtered(filter)) do
             push_tick {
                 name = auto_deconstruct_event,
@@ -82,8 +82,8 @@ Event.on_event_if(enabled, defines.events.on_resource_depleted, on_resource_depl
 
 local function init()
     for _, surface in pairs(game.surfaces) do
-        for _, drill in pairs(surface.find_entities_filtered {type = 'mining-drill'}) do
-            check_for_deconstruction({entity = drill})
+        for _, drill in pairs(surface.find_entities_filtered { type = 'mining-drill' }) do
+            check_for_deconstruction { entity = drill }
         end
     end
 end

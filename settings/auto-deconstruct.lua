@@ -2,16 +2,16 @@
 data:extend {
     {
         type = 'bool-setting',
-        name = 'picker-autodeconstruct',
+        name = 'picker-auto-deconstruct',
         setting_type = 'runtime-global',
         default_value = true,
-        order = 'picker-autodeconstruct-a'
+        order = 'picker-auto-deconstruct-a'
     },
     {
         type = 'bool-setting',
-        name = 'picker-autodeconstruct-target',
+        name = 'picker-auto-deconstruct-target',
         setting_type = 'runtime-global',
         default_value = true,
-        order = 'picker-autodeconstruct-b'
+        order = 'picker-auto-deconstruct-b'
     }
 }

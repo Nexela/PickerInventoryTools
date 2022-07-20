@@ -3,12 +3,12 @@ local Event = require('__stdlib__/stdlib/event/event')
 local function set_group_options(index, ...)
     local player = game.players[index]
     local set = player.mod_settings
-    for _, val in pairs({...}) do
+    for _, val in pairs { ... } do
         local func_name = val:find('subgroups') and 'recipe_subgroups' or 'recipe_groups'
         if set[val].value then
-            player['enable_'..func_name]()
+            player['enable_' .. func_name]()
         else
-            player['disable_'..func_name]()
+            player['disable_' .. func_name]()
         end
     end
 end

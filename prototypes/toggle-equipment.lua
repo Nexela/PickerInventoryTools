@@ -18,7 +18,7 @@ data:extend {
         order = 'c[toggles]-b[night-vision]',
         action = 'lua',
         toggleable = true,
-        localised_name = {'shortcut.toggle-night-vision-equipment'},
+        localised_name = { 'shortcut.toggle-night-vision-equipment' },
         associated_control_input = 'toggle-night-vision-equipment',
         technology_to_unlock = 'night-vision-equipment',
         icon = {
@@ -27,7 +27,7 @@ data:extend {
             size = 64,
             scale = 0.5,
             mipmap_count = 4,
-            flags = {'gui-icon'}
+            flags = { 'gui-icon' }
         }
     },
     {
@@ -36,7 +36,7 @@ data:extend {
         order = 'c[toggles]-b[active-defense]',
         action = 'lua',
         toggleable = true,
-        localised_name = {'shortcut.toggle-active-defense-equipment'},
+        localised_name = { 'shortcut.toggle-active-defense-equipment' },
         associated_control_input = 'toggle-active-defense-equipment',
         technology_to_unlock = 'personal-laser-defense-equipment',
         icon = {
@@ -45,7 +45,7 @@ data:extend {
             size = 64,
             scale = 0.5,
             mipmap_count = 4,
-            flags = {'gui-icon'}
+            flags = { 'gui-icon' }
         }
     }
 }

@@ -30,10 +30,11 @@ local function increase_decrease_reprogrammer(event)
         local pad = Pad.get_or_create_adjustment_pad(player, 'chestlimit')
         local text_field = pad['chestlimit_text_box']
         if event.element and event.element.name == 'chestlimit_text_box' then
-            if not tonumber(event.element.text) then
+            local number = tonumber(event.element.text)
+            if not number then
                 bar = 0
             else
-                bar = tonumber(event.element.text)
+                bar = number
             end
         elseif event.element and event.element.name == 'chestlimit_btn_reset' then
             bar = 0
@@ -47,7 +48,7 @@ local function increase_decrease_reprogrammer(event)
         Pad.remove_gui(player, 'chestlimit_frame_main')
     end
 end
-local events = {defines.events.on_player_cursor_stack_changed}
+local events = { defines.events.on_player_cursor_stack_changed }
 Pad.register_events('chestlimit', increase_decrease_reprogrammer, events)
 
 --Set the limit when chests are built and data is saved.

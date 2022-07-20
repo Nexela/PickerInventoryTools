@@ -14,27 +14,27 @@ local Item = require('__stdlib__/stdlib/data/item')
 local Table = require('__stdlib__/stdlib/utils/table')
 
 local key = 'picker-moveable-chests'
-if mods['packing-tape'] or not (settings["startup"][key] and settings["startup"][key].value) then return end
+if mods['packing-tape'] or not (settings['startup'][key] and settings['startup'][key].value) then return end
 
-local chest_types = {'container', 'logistic-container'}
+local chest_types = { 'container', 'logistic-container' }
 
-local skip_chests = Data.Unique_Array.dictionary{
+local skip_chests = Data.Unique_Array.dictionary {
     'bait-chest', 'compilatron-chest', 'crash-site-chest-1', 'crash-site-chest-2', 'big-ship-wreck-1',
     'big-ship-wreck-2', 'big-ship-wreck-3', 'red-chest', 'blue-chest', 'compi-logistics-chest', 'infinity-cargo-wagon',
     'railloader-chest', 'railunloader-chest'
 }
 
-Data{name = 'picker-moveable', type = 'item-subgroup', group = 'other'}
+Data { name = 'picker-moveable', type = 'item-subgroup', group = 'other' }
 
 local default = Item('wooden-chest', 'item')
 local count = 0
 
 for _, container_type in pairs(chest_types) do
-    for _, container in Entity:pairs(container_type, {silent = true}) do
+    for _, container in Entity:pairs(container_type, { silent = true }) do
         if not (skip_chests[container.name] or container.not_inventory_moveable) then
             local item = container:is_player_placeable() and container:get_minable_item()
             if item and item:is_valid() then
-                Item{
+                Item {
                     name = 'picker-moveable-' .. container.name,
                     type = 'item-with-inventory',
                     place_result = container.name,
@@ -43,9 +43,9 @@ for _, container_type in pairs(chest_types) do
                     icons = Table.deep_copy(item.icons or default.icons or nil) or nil,
                     icon_size = item.icon_size or default.icon_size,
                     icon_mipmaps = item.icon_mipmaps or default.icon_mipmaps,
-                    localised_name = {'item-name.picker-moveable', {'entity-name.' .. container.name}},
+                    localised_name = { 'item-name.picker-moveable', { 'entity-name.' .. container.name } },
                     stack_size = 1,
-                    flags = {'hidden', 'not-stackable'},
+                    flags = { 'hidden', 'not-stackable' },
                     inventory_size = container.inventory_size,
                     order = 'z[picker-moveable]-' .. (container.order or ''),
                     insertion_priority_mode = 'never'

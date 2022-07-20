@@ -7,7 +7,7 @@ local Event = require('__stdlib__/stdlib/event/event')
 local Player = require('__stdlib__/stdlib/event/player')
 local table = require('__stdlib__/stdlib/utils/table')
 
-local hide_types = table.array_to_dictionary {'logistic-container', 'electric-pole', 'roboport', 'container'}
+local hide_types = table.array_to_dictionary { 'logistic-container', 'electric-pole', 'roboport', 'container' }
 
 local function picker_hide_minimap(event)
     local player, pdata = Player.get(event.player_index)

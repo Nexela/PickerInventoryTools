@@ -9,9 +9,9 @@ local Event = require('__stdlib__/stdlib/event/event')
 local Inventory = require('__stdlib__/stdlib/entity/inventory')
 
 local key = 'picker-moveable-chests'
-if script.active_mods['packing-tape'] or not settings["startup"][key] and settings["startup"][key].value then return end
+if script.active_mods['packing-tape'] or not settings['startup'][key] and settings['startup'][key].value then return end
 
-local chests = {['container'] = defines.inventory.chest, ['logistic-container'] = defines.inventory.chest}
+local chests = { ['container'] = defines.inventory.chest, ['logistic-container'] = defines.inventory.chest }
 
 local function clean_up_awaiting(ret_val)
     global.awaiting.data.main_inv.destroy()
@@ -85,7 +85,7 @@ do -- Saving Code
             for i = 1, chest.request_slot_count do data.request_slots[i] = chest.get_request_slot(i) end
             data.request_from_buffers = chest.request_from_buffers
         end
-        global.awaiting = {entity = chest, data = data}
+        global.awaiting = { entity = chest, data = data }
     end
     Event.register(defines.events.on_pre_player_mined_item, save_inventory_data)
 

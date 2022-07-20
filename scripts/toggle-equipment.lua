@@ -2,56 +2,56 @@ local Event = require('__stdlib__/stdlib/event/event')
 
 local shortcuts = {
     ['toggle-night-vision-equipment'] = {
-        filters = {{filter = 'type', type = 'night-vision-equipment'}},
+        filters = { { filter = 'type', type = 'night-vision-equipment' } },
         name = '.'
     },
     ['toggle-active-defense-equipment'] = {
-        filters = {{filter = 'type', type = 'active-defense-equipment'}},
+        filters = { { filter = 'type', type = 'active-defense-equipment' } },
         name = '.',
         automatic = true
     },
     ['toggle-equipment-bot-chip-items'] = {
-        filters = {{filter = 'type', type = 'active-defense-equipment'}},
+        filters = { { filter = 'type', type = 'active-defense-equipment' } },
         name = 'equipment%-bot%-chip%-items'
     },
     ['toggle-equipment-bot-chip-feeder'] = {
-        filters = {{filter = 'type', type = 'active-defense-equipment'}},
+        filters = { { filter = 'type', type = 'active-defense-equipment' } },
         name = 'equipment%-bot%-chip%-feeder'
     },
     ['toggle-equipment-bot-chip-launcher'] = {
-        filters = {{filter = 'type', type = 'active-defense-equipment'}},
+        filters = { { filter = 'type', type = 'active-defense-equipment' } },
         name = 'equipment%-bot%-chip%-launcher'
     },
     ['toggle-equipment-bot-chip-nanointerface'] = {
-        filters = {{filter = 'type', type = 'active-defense-equipment'}},
+        filters = { { filter = 'type', type = 'active-defense-equipment' } },
         name = 'equipment%-bot%-chip%-nanointerface'
     },
     ['toggle-equipment-bot-chip-trees'] = {
-        filters = {{filter = 'type', type = 'active-defense-equipment'}},
+        filters = { { filter = 'type', type = 'active-defense-equipment' } },
         name = 'equipment%-bot%-chip%-trees'
     }
 }
 
-local function name_filter(protos, shortcut)
-    local new_protos = {}
-    for _, proto in pairs(protos) do
+local function name_filter(prototypes, shortcut)
+    local new_prototypes = {}
+    for _, proto in pairs(prototypes) do
         if not proto.name:find('^picker%-disabled') and proto.name:find(shortcut.name) then
             if not shortcut.automatic or (shortcut.automatic and proto.automatic) then
-                local disabled_proto = protos['picker-disabled-' .. proto.name]
+                local disabled_proto = prototypes['picker-disabled-' .. proto.name]
                 if disabled_proto then
-                    new_protos[#new_protos + 1] = proto
-                    new_protos[#new_protos + 1] = disabled_proto
+                    new_prototypes[#new_prototypes + 1] = proto
+                    new_prototypes[#new_prototypes + 1] = disabled_proto
                 end
             end
         end
     end
-    return new_protos
+    return new_prototypes
 end
 
 local function swap_in_place(grid, equipment, disable)
     local name = disable and ('picker-disabled-' .. equipment.name) or equipment.name:gsub('^picker%-disabled%-', '')
-    local new = {name = name, position = equipment.position, energy = equipment.energy}
-    if grid.take {equipment = equipment} then
+    local new = { name = name, position = equipment.position, energy = equipment.energy }
+    if grid.take { equipment = equipment } then
         local new_eq = grid.put(new)
         if new_eq then
             new_eq.energy = new.energy
@@ -102,7 +102,7 @@ local function toggle_armor_modules(event)
         end
     end
 end
-local inputs = {'toggle-night-vision-equipment', 'toggle-active-defense-equipment'}
+local inputs = { 'toggle-night-vision-equipment', 'toggle-active-defense-equipment' }
 Event.register(inputs, toggle_armor_modules)
 Event.register(defines.events.on_lua_shortcut, toggle_armor_modules)
 

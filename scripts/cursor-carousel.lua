@@ -37,12 +37,12 @@ local function build_upgrade_registry()
         -- get objects and validate them, or error if not
         local prototype = prototypes[name]
         if not prototype then
-            game.print {'chat-message.invalid-name', name}
+            game.print { 'chat-message.invalid-name', name }
             goto continue
         end
         local upgrade_prototype = prototypes[upgrade]
         if not upgrade_prototype then
-            game.print {'chat-message.invalid-upgrade-name', upgrade}
+            game.print { 'chat-message.invalid-upgrade-name', upgrade }
             goto continue
         end
         for _, item in ipairs(prototype.items_to_place_this or {}) do
@@ -85,6 +85,7 @@ local function cycle_carousel(event)
         else
             return
         end
+        ---@cast stack -?
 
         local registry = global.carousel_registry
         -- get upgrade or downgrade depending on event
@@ -100,17 +101,18 @@ local function cycle_carousel(event)
             for _, item in ipairs(grade_items) do
                 if contents[item.name] then
                     -- we actually have this item, so replace the cursor stack from the inventory
-                    stack.set_stack {name = item.name, count = inventory.remove {name = item.name, count = game.item_prototypes[item.name].stack_size}}
+                    stack.set_stack { name = item.name, count = inventory.remove { name = item.name, count = game.item_prototypes[item.name].stack_size } }
                     return
                 elseif always_give and player.controller_type == defines.controllers.editor then
                     -- replace the cursor stack without taking from the inventory
-                    stack.set_stack {name = item.name, count = game.item_prototypes[item.name].stack_size}
+                    stack.set_stack { name = item.name, count = game.item_prototypes[item.name].stack_size }
                     return
                 end
             end
+            ---@cast grade_items -?
             -- if we're here, then they don't have any of the items, so put the first one in the ghost cursor
             player.cursor_ghost = grade_items[1].name
         end
     end
 end
-Event.on_event({'picker-carousel-forwards', 'picker-carousel-backwards'}, cycle_carousel)
+Event.on_event({ 'picker-carousel-forwards', 'picker-carousel-backwards' }, cycle_carousel)
