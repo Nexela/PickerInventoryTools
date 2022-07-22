@@ -1,9 +1,9 @@
-local table = require('__stdlib__/stdlib/utils/table')
+local table = require('__stdlib__/stdlib/utils/table') --[[@as table]]
 
-local equipment = {}
+local equipment = {} ---@type Prototype.Equipment[]
 
 for _, v in pairs(data.raw['night-vision-equipment']) do
-    local t = table.deepcopy(v)
+    local t = table.deepcopy(v) --[[@as Prototype.NightVisionEquipment]]
     -- Keep the same localised name if none is specified
     t.localised_name = { 'disabled-equipment.disabled', t.localised_name or { 'equipment-name.' .. t.name } }
     -- Some mods don't specify take_result making it default to the equipment name.
@@ -16,7 +16,7 @@ end
 
 for _, v in pairs(data.raw['active-defense-equipment']) do
     if v.automatic then
-        local t = table.deepcopy(v)
+        local t = table.deepcopy(v) --[[@as Prototype.ActiveDefenseEquipment]]
         -- Keep the same localised name if none is specified
         t.localised_name = { 'disabled-equipment.disabled', t.localised_name or { 'equipment-name.' .. t.name } }
         -- Some mods don't specify take_result making it default to the equipment name.

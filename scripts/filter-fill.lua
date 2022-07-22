@@ -115,13 +115,15 @@ end
 -- Filtering: Filter all cells of the opened container with the
 -- contents of the player's cursor stack, or the first item in the container,
 -- or the first filter in the container
+---@param player LuaPlayer
 local function get_opened_inventory(player)
-    local inv
+    local inv ---@type LuaInventory?
     if GUI_TYPES[player.opened_gui_type] then
         if player.opened_self then
             inv = player.get_main_inventory()
         elseif player.opened_gui_type == defines.gui_type.entity then
             local opened = player.opened
+            ---@cast opened -?
             if opened.type == 'spider-vehicle' then
                 inv = opened.get_inventory(defines.inventory.spider_trunk)
             else
@@ -274,6 +276,7 @@ local function blueprint_requests(event)
 end
 Gui.on_click('filterfill_requests_btn_bp', blueprint_requests)
 
+---@param event EventData.on_gui_opened
 local function check_for_filterable_inventory(event)
     local player = game.players[event.player_index]
     local flow = get_or_create_filterfill_gui(player)
@@ -283,7 +286,8 @@ local function check_for_filterable_inventory(event)
         local requester = false
         local opened = player.opened
         if opened and opened.type == 'logistic-container' then
-            local prototype = opened.prototype --[[@as LuaEntityPrototype]]
+            local prototype = opened.prototype
+            ---@cast prototype -?
             if prototype.logistic_mode == 'requester' or prototype.logistic_mode == 'buffer' then requester = true end
         end
         local settings = player.mod_settings
