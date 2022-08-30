@@ -260,8 +260,7 @@ local function blueprint_requests(event)
             for i = 1, slot_count do chest.clear_request_slot(i--[[@as uint]] ) end
             local i = 1
             Table.each(blueprint.cost_to_build, function(v, k)
-                if i < slot_count then
-                    chest.set_request_slot({ name = k, count = safe_number(v) }, i)
+                if chest.set_request_slot({name = k, count = safe_number(v)}, i) then
                     i = i + 1
                 else
                     return true
