@@ -39,9 +39,10 @@ local item_count_events = {
 }
 Event.register(item_count_events, get_itemcount_counts)
 
+---@param event EventData.on_runtime_mod_setting_changed
 local function update_item_count_settings(event)
-    local player = game.players[event.player_index]
-    if event.setting == 'picker-item-count' then
+    if event.player_index ~= nil and event.setting == 'picker-item-count' then
+        local player = game.players[event.player_index]
         local enabled = player.mod_settings['picker-item-count'].value
         local gui = get_or_create_itemcount_gui(player)
         gui.visible = enabled and player.cursor_stack.valid_for_read or false
